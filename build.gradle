@@ -1,0 +1,32 @@
+plugins {
+    id 'java'
+}
+
+group 'by.katz'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // vk
+    implementation 'com.vk.api:sdk:1.0.14'
+    //logs
+    implementation group: 'org.slf4j', name: 'slf4j-jdk14', version: '1.7.26'
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '2.11.2'
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.11.2'
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.11.2'
+    // sugar
+    compileOnly 'org.projectlombok:lombok:1.18.26'
+    annotationProcessor 'org.projectlombok:lombok:1.18.26'
+    // jsoup
+    implementation group: 'org.jsoup', name: 'jsoup', version: '1.11.3'
+    //  tests
+    //testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    //testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+test {
+    useJUnitPlatform()
+}
