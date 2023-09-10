@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) acedece14@gmail.com / vk.com/id6332939
+ */
+
 package by.katz;
 
 import com.google.gson.Gson;
@@ -7,9 +11,13 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 
+/**
+ * хранилка для настроек
+ */
 @Getter
 @Setter
 @Slf4j
@@ -25,22 +33,23 @@ public class AppSettings {
     private AppSettings() {}
 
     public static synchronized AppSettings getInstance() {
-        if (instance == null) {
-            if (!FILE_SETTINGS.exists()) {
-                instance = new AppSettings();
-                instance.saveSettingsToFile();
-                log.info(FILE_SETTINGS + " created, edit and restart app");
-                System.exit(1);
-            }
-            try {
-                var json = Files.readString(FILE_SETTINGS.toPath());
-                instance = gson.fromJson(json, AppSettings.class);
-            } catch (IOException e) {throw new RuntimeException(e);}
-        }
+        if (instance == null)
+            loadSettings();
         return instance;
     }
 
-    public void saveSettingsToFile() {
+    private static void loadSettings() {
+        if (!FILE_SETTINGS.exists()) {
+            (instance = new AppSettings()).saveSettingsToFile();
+            log.info(FILE_SETTINGS.getAbsolutePath() + " created, edit settings and restart app");
+            System.exit(0);
+        }
+        try (var fr = new FileReader(FILE_SETTINGS)) {
+            instance = gson.fromJson(fr, AppSettings.class);
+        } catch (IOException e) {throw new RuntimeException(e);}
+    }
+
+    public synchronized void saveSettingsToFile() {
         try {
             Files.writeString(FILE_SETTINGS.toPath(), gson.toJson(this));
         } catch (IOException e) {throw new RuntimeException(e);}

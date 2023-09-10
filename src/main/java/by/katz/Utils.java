@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) acedece14@gmail.com / vk.com/id6332939
+ */
+
 package by.katz;
 
 import java.util.Comparator;
@@ -16,9 +20,9 @@ public class Utils {
         return pattern.matcher(strNum).matches();
     }
 
-    static void sleepInMinutes(int minutesToWait) {
+    public static void sleepInMinutes(int minutesToWait) {
         try {
-            TimeUnit.SECONDS.sleep(minutesToWait);
+            TimeUnit.MINUTES.sleep(minutesToWait);
         } catch (InterruptedException e) {throw new RuntimeException(e);}
     }
 
